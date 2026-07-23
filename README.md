@@ -12,6 +12,26 @@ implement/review loop.
   - `figma-reviewer` — independently checks the built page against Figma in
     the live browser (Claude for Chrome) and reports pass/fail.
 
+## Prerequisites
+
+`figma-reviewer` reviews every page live in a real browser using the
+**Claude for Chrome** extension — this is fixed and not project-configurable
+(see `agents/figma-reviewer.md`). That means:
+
+- You must use the **Claude Code CLI**, not the Claude desktop app. The
+  Claude for Chrome extension is driven through the CLI's browser
+  integration, which the desktop app does not expose.
+- Before running this workflow, `cd` into your project and start Claude Code
+  with the Chrome flag as your first step:
+
+  ```bash
+  cd /path/to/your/project
+  claude --chrome
+  ```
+
+  Skipping `--chrome` means `figma-reviewer` has no way to drive or inspect
+  the live page, and the review step will fail.
+
 ## Installation
 
 Claude Code loads skills and agents from `~/.claude/skills/` and
@@ -33,11 +53,19 @@ and agents.
 
 ## Usage
 
-Invoke the skill with a Figma file or frame link:
+1. Start Claude Code with Chrome enabled, from your project directory (see
+   Prerequisites above):
 
-```
-/figma-to-code-loop <figma link>
-```
+   ```bash
+   cd /path/to/your/project
+   claude --chrome
+   ```
+
+2. Invoke the skill with a Figma file or frame link:
+
+   ```
+   /figma-to-code-loop <figma link>
+   ```
 
 It's designed to be re-entered repeatedly via `/loop` — each call does one
 unit of work (read the flow, implement a page, or run one review round) and
