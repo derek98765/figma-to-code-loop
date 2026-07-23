@@ -51,6 +51,16 @@ cp agents/figma-implementor.md agents/figma-reviewer.md ~/.claude/agents/
 Restart Claude Code (or start a new session) so it picks up the new skill
 and agents.
 
+### Optional: project config
+
+The skill will pick up project-specific conventions (dev server URL, design
+tokens location, spacing scale, component directory, routing conventions,
+etc.) from `.claude/figma-workflow.config.md` in your project root, if
+present. See [`figma-workflow.config.example.md`](figma-workflow.config.example.md)
+for the format — copy it into your project as `.claude/figma-workflow.config.md`
+and fill in your own values. If no config file is found, the skill falls
+back to sensible defaults (see `skills/figma-to-code-loop/SKILL.md`).
+
 ## Usage
 
 1. Start Claude Code with Chrome enabled, from your project directory (see
