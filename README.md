@@ -51,15 +51,53 @@ cp agents/figma-implementor.md agents/figma-reviewer.md ~/.claude/agents/
 Restart Claude Code (or start a new session) so it picks up the new skill
 and agents.
 
-### Optional: project config
+## Project config
 
-The skill will pick up project-specific conventions (dev server URL, design
-tokens location, spacing scale, component directory, routing conventions,
-etc.) from `.claude/figma-workflow.config.md` in your project root, if
-present. See [`figma-workflow.config.example.md`](figma-workflow.config.example.md)
-for the format — copy it into your project as `.claude/figma-workflow.config.md`
-and fill in your own values. If no config file is found, the skill falls
-back to sensible defaults (see `skills/figma-to-code-loop/SKILL.md`).
+This skill is generic by default — it doesn't know your dev server URL, your
+design token file, your component conventions, or your routing setup. Rather
+than asking you those questions on every run, it reads them once from an
+optional config file: `.claude/figma-workflow.config.md` in your project
+root.
+
+**What it's for:** giving `figma-to-code-loop` (and the agents it spawns)
+enough project context to build pages that actually fit your codebase —
+right dev server to preview against, right tokens instead of hardcoded
+values, right place to put new pages, right review-round budget — without
+you repeating that context in every prompt.
+
+**How to set it up:** copy
+[`figma-workflow.config.example.md`](figma-workflow.config.example.md) into
+your project as `.claude/figma-workflow.config.md` and fill in your project's
+real values in place of the placeholders.
+
+```bash
+mkdir -p .claude
+cp figma-workflow.config.example.md /path/to/your/project/.claude/figma-workflow.config.md
+```
+
+**What the skill actually reads from it:**
+
+- `dev_server_url` — used directly by the skill and passed to
+  `figma-implementor`/`figma-reviewer` so they preview and review against the
+  right running app.
+- `max_review_rounds` — used directly to cap how many implement/review
+  rounds a page gets before it's logged as blocked instead of looped on
+  forever.
+- `todo_file` / `pending_issues_file` — if set, used as a fixed, shared
+  path instead of the default per-flow-slug file naming. Only set these if
+  you deliberately want one shared to-do list across multiple Figma flows.
+- Everything else in the file (`tokens_file`, `spacing_scale`,
+  `ui_components_dir`, page/routing conventions) is contextual guidance
+  passed along for the implementor/reviewer agents to follow — not parsed
+  into skill logic, but still worth filling in accurately.
+- `review_tool` is informational only. `figma-reviewer` always uses the
+  Claude for Chrome extension; this can't be changed per project.
+
+**If the file doesn't exist**, the skill falls back to built-in defaults
+(per-flow-slug to-do/pending-issues files, 3 review rounds) and asks you for
+the dev server URL if it can't find one in `CLAUDE.md`/`AGENTS.md`. See
+`skills/figma-to-code-loop/SKILL.md` (Step 0) for the exact fallback
+behavior.
 
 ## Usage
 
