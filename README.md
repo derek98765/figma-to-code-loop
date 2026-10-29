@@ -38,14 +38,14 @@ Claude Code loads skills and agents from `~/.claude/skills/` and
 `~/.claude/agents/` (global, all projects) or `.claude/skills/` and
 `.claude/agents/` (project-local). To install:
 
-1. Copy `skills/figma-to-code-loop/` into your global `~/.claude/skills/`
-   folder (or a project's `.claude/skills/`).
+1. Clone this repo into your global `~/.claude/skills/` folder (or a project's
+   `.claude/skills/`), so the repo is the skill folder.
 2. Copy both files from `agents/` into your global `~/.claude/agents/`
    folder (or a project's `.claude/agents/`).
 
 ```bash
-cp -r skills/figma-to-code-loop ~/.claude/skills/
-cp agents/figma-implementor.md agents/figma-reviewer.md ~/.claude/agents/
+git clone https://github.com/derek98765/figma-to-code-loop.git ~/.claude/skills/figma-to-code-loop
+cp ~/.claude/skills/figma-to-code-loop/agents/*.md ~/.claude/agents/
 ```
 
 Restart Claude Code (or start a new session) so it picks up the new skill
@@ -96,7 +96,7 @@ cp figma-workflow.config.example.md /path/to/your/project/.claude/figma-workflow
 **If the file doesn't exist**, the skill falls back to built-in defaults
 (per-flow-slug to-do/pending-issues files, 3 review rounds) and asks you for
 the dev server URL if it can't find one in `CLAUDE.md`/`AGENTS.md`. See
-`skills/figma-to-code-loop/SKILL.md` (Step 0) for the exact fallback
+`SKILL.md` (Step 0) for the exact fallback
 behavior.
 
 ## Usage
@@ -117,4 +117,4 @@ behavior.
 
 It's designed to be re-entered repeatedly via `/loop` — each call does one
 unit of work (read the flow, implement a page, or run one review round) and
-stops. See `skills/figma-to-code-loop/SKILL.md` for the full workflow.
+stops. See `SKILL.md` for the full workflow.
