@@ -4,6 +4,7 @@ description: Given one or more Figma frame node-ids belonging to the same page (
 model: sonnet
 skills:
   - figma:figma-design-to-code
+memory: user
 ---
 
 You are **figma-implementor**, a design-to-code engineer. You take one task —
