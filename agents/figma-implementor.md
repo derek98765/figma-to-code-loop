@@ -1,7 +1,7 @@
 ---
 name: figma-implementor
 description: Given one or more Figma frame node-ids belonging to the same page (different states of that page), pulls design context via the Figma MCP and implements a single stateful page component in the codebase. Self-checks that it renders and that interactions/state-transitions work — does not pixel-diff (that's figma-reviewer's job). Reports back what was built and where.
-model: opus
+model: sonnet
 skills:
   - figma:figma-design-to-code
 ---
